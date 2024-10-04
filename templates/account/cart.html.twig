@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+{% endblock %}
+{% block body %}
+<header>
+        <div class="container">
+            <div class="logo">
+                <img src="{{ asset('logo.svg') }}">
+            </div>
+            <ul class="menu">
+                <li><a href="{{ path('app_home') }}">Nos produits</a></li>
+                {% if app.user %}
+                <li><a href="{{ path('app_shopping_cart') }}">Mon panier</a></li>
+                <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% else %}
+                <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+</header>
+
+<main class="cart-container-main">
+    <div class="cart-container">
+        <h1>Mon panier</h1>
+        <div class="cart-header">
+            <a href="#" class="empty-cart">x Vider le panier</a>
+            <h1></h1>
+        </div>
+        {% set total = 0 %} {# Initialisation de la variable total #}
+        {% if panier == 1 %}
+
+
+            {% for order in orders %}
+                <div class="cart-item">
+                    <img src="{{ asset('img/product/' ~ order.product.photo) }}" alt="{{ order.product.name }}">
+                    <div class="item-details">
+                        <h2>{{ order.product.name }}</h2>
+                        <p>Quantité: {{ order.quantity }}</p>
+                        <p class="price">{{ order.price }}€</p>
+                    </div>
+                </div>
+
+                {% set total = total + order.price %} {# Accumule le prix #}
+            {% endfor %}
+
+        {% else %}
+            <div class="cart-item">
+                <h2>Votre Panier est vide</h2>
+            </div>
+        {% endif %}
+
+        <div class="cart-summary">
+            <p class="total-title">Total panier : <span>{{ total }}€</span></p> {# Affichage du total calculé #}
+            <p>Frais de livraison : Offert</p>
+        </div>
+
+        <div class="cart-footer">
+            <button class="checkout-btn">Valider la commande</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; GreenGoodies - 2024</p>
+</footer>
+{% endblock %}

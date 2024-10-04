@@ -38,49 +38,16 @@
     <section class="products">
         <h3>Nos produits</h3>
         <div class="product-grid">
+        {% for product in products %}
             <div class="product-item">
-                <img src="picture.jpeg" alt="Kit hygiène recyclable">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>5ocl, bois d'olivier</p>
-                <p>24,90€</p>
-                <a href="#">Voir le produit</a>
+                <img src="{{ asset('img/product/' ~ product.photo) }}" alt="{{product.name}}">
+                <h4>{{product.name}}</h4>
+                <p>{{product.description}}</p>
+                <p>{{product.price}}€</p>
+                <a href="{{ path('app_product',{'id': product.id}) }}">Voir le produit</a>
             </div>
-            <div class="product-item">
-                <img src="picture.jpg" alt="Shot Tropical">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>Shot Tropical</p>
-                <p>4,50€</p>
-                <a href="#">Voir le produit</a>
-            </div>
-            <div class="product-item">
-                <img src="picture.jpg" alt="Gourde en bois">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>Gourde en bois</p>
-                <p>16,90€</p>
-                <a href="#">Voir le produit</a>
-            </div>
-            <div class="product-item">
-                <img src="picture.jpeg" alt="Kit hygiène recyclable">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>Kit d'hygiène recyclable</p>
-                <p>24,90€</p>
-                <a href="#">Voir le produit</a>
-            </div>
-            <div class="product-item">
-                <img src="picture.jpg" alt="Shot Tropical">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>Shot Tropical</p>
-                <p>4,50€</p>
-                <a href="#">Voir le produit</a>
-            </div>
-            <div class="product-item">
-                <img src="picture.jpg" alt="Gourde en bois">
-                <h4>Kit d'hygiène recyclable</h4>
-                <p>Gourde en bois</p>
-                <p>16,90€</p>
-                <a href="#">Voir le produit</a>
-            </div>
-        </div>
+
+        {% endfor %}
     </section>
 
     <section class="conviction">

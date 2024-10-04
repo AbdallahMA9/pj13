@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{product.name}}
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/product.css') }}"/>
+{% endblock %}
+{% block body %}
+	<header>
+		<div class="container">
+			<div class="logo">
+				<img src="{{ asset('logo.svg') }}">
+			</div>
+			<ul class="menu">
+				<li>
+					<a href="{{ path('app_home') }}">Nos produits</a>
+				</li>
+				{% if app.user %}
+					<li>
+						<a href="{{ path('app_shopping_cart') }}">Mon panier</a>
+					</li>
+					<li>
+						<a href="{{ path('app_account') }}">Mon compte</a>
+					</li>
+					<li>
+						<a href="{{ path('app_logout') }}">Déconnexion</a>
+					</li>
+				{% else %}
+					<li>
+						<a href="{{ path('app_register') }}">Inscription</a>
+					</li>
+					<li>
+						<a href="{{ path('app_login') }}">Connexion</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</header>
+
+	<main>
+		<div class="product-container">
+			<div class="product-image">
+				<img src="{{ asset('img/product/' ~ product.photo) }}" alt="Nécessaire, déodorant Bio">
+			</div>
+			<div class="product-details">
+				<div class="product-details-description">
+					<h1>{{product.name}}</h1>
+					<p class="price">{{product.price}}€</p>
+					<p class="description-title">Description</p>
+					<p>
+						Déodorant Nécessaire, une formule révolutionnaire composée exclusivement d'ingrédients naturels pour une protection efficace et bienfaisante.
+					</p>
+					<p>
+						Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la journée.
+					</p>
+					<p>
+						Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.
+					</p>
+					<div class="add-to-cart-container">
+                    {% if panier == 1 %}
+                        <a class="button-add update" style="text-align: center; text-decoration: none;">
+							Mettre a jour (Quantité  {{order.quantity}})
+						</a>
+                        <a href="{{ path('update_product_plus',{'id': order.id}) }}" class="button-add plus" style="text-align: center; text-decoration: none;">
+							+
+						</a>
+                        <a href="{{ path('update_product_less',{'id': order.id}) }}" class="button-add less" style="text-align: center; text-decoration: none;">
+							-
+						</a>
+                    {% else %}
+						<a href="{{ path('add_product',{'id': product.id}) }}" class="button-add adding" style="text-align: center; text-decoration: none;">
+							Ajouter au panier
+						</a>
+                    {% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer>
+
+		<p>&copy; GreenGoodies - 2024</p>
+	</footer>
+{% endblock %}
