@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceuil{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+{% endblock %}
+{% block body %}
+<header>
+        <div class="container">
+            <div class="logo">
+                <img src="{{ asset('logo.svg') }}">
+            </div>
+            <ul class="menu">
+                <li><a href="{{ path('app_home') }}">Nos produits</a></li>
+                {% if app.user %}
+                <li><a href="{{ path('app_shopping_cart') }}">Mon panier</a></li>
+                <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% else %}
+                <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <div class="split-section">
+        <div class="text-container">
+            <h1>Bienvenue</h1>
+            <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt 
+                à porter</p>
+        </div>
+        <div class="image-container">
+            <img src="picture.jpeg" alt="Image adaptative">
+        </div>
+    </div>
+
+    <section class="products">
+        <h3>Nos produits</h3>
+        <div class="product-grid">
+            <div class="product-item">
+                <img src="picture.jpeg" alt="Kit hygiène recyclable">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>5ocl, bois d'olivier</p>
+                <p>24,90€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+            <div class="product-item">
+                <img src="picture.jpg" alt="Shot Tropical">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>Shot Tropical</p>
+                <p>4,50€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+            <div class="product-item">
+                <img src="picture.jpg" alt="Gourde en bois">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>Gourde en bois</p>
+                <p>16,90€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+            <div class="product-item">
+                <img src="picture.jpeg" alt="Kit hygiène recyclable">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>Kit d'hygiène recyclable</p>
+                <p>24,90€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+            <div class="product-item">
+                <img src="picture.jpg" alt="Shot Tropical">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>Shot Tropical</p>
+                <p>4,50€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+            <div class="product-item">
+                <img src="picture.jpg" alt="Gourde en bois">
+                <h4>Kit d'hygiène recyclable</h4>
+                <p>Gourde en bois</p>
+                <p>16,90€</p>
+                <a href="#">Voir le produit</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="conviction">
+        <div class="three-part-section">
+            <div class="left-section">
+                <h2>NOTRE CONVICTION</h2>
+                <p>Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
+            </div>
+            <div class="middle-section">
+                <!-- Rien à mettre pour l'instant -->
+            </div>
+            <div class="right-section">
+                <img src="conviction.jpeg" alt="Image remplie">
+            </div>
+            
+        </div>
+        <div class="three-part-section valor">
+            <div class="right-section">
+                <img src="valor.jpeg" alt="Image remplie">
+            </div>
+            <div class="middle-section">
+                <!-- Rien à mettre pour l'instant -->
+            </div>
+            <div class="left-section">
+                <h2>NOS VALEURS</h2>
+                <p>Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.
+                    Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.
+                    Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+
+        <p>&copy; GreenGoodies - 2024</p>
+    </footer>
+{% endblock %}

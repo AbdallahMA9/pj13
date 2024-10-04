@@ -1,0 +1,345 @@
+/* Réinitialisation de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #FFFDF7;
+    font-family: inter;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* En-tête */
+header {
+    padding: 1rem 0;
+    border-bottom: 1px solid #F6F5F0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 12rem;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.split-section {
+    background-color: rgba(232, 240, 227, 1);
+    display: flex;
+    width: 100%;
+    height: 60vh; /* 60% de la hauteur de l'écran */
+}
+
+.text-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Pour empiler le titre et le texte */
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    box-sizing: border-box; /* Assure que la marge interne ne modifie pas la taille du conteneur */
+}
+
+.text-container h1 {
+    font-size: 3rem;
+    margin-bottom: 10px; 
+    width: 50%;
+    text-align: left;
+}
+
+.text-container p {
+    font-size: 0.7rem;
+    color: #333;
+    width: 50%;
+}
+
+.image-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image couvre toute la zone sans se déformer */
+    display: block;
+}
+
+
+.hero .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.welcome-text {
+    flex: 1;
+
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.welcome-text h2 {
+    font-size: 3rem;
+    color: #333;
+}
+
+.welcome-text p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #555;
+}
+
+/* Section des produits */
+.products {
+    padding-top: 2rem;
+}
+
+.products h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    padding-left: 7rem;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.product-item {
+    text-align: center;
+}
+
+.product-item img {
+    height: 50vh;
+    width: 100%;
+    object-fit: cover;
+    padding-bottom: 2vh;
+
+}
+
+.product-item p {
+    margin-top: 0.5rem;
+    color: #333;
+}
+
+.product-item a {
+    width: 100%;
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #000;
+    text-decoration: none;
+    padding: 2vh 0;
+    margin-top: 2vh;
+}
+
+.product-item a:hover {
+    color: #FFFDF7;
+    background-color: #333333;
+}
+.three-part-section {
+    background-color: #EBE3D3;
+    display: flex;
+    width: 100%;
+    height: 55vh; 
+}
+.valor{
+    background-color:#E8F0E3;
+}
+
+.left-section {
+    flex: 1; /* Première partie à gauche */
+    display: flex;
+    flex-direction: column; /* Aligne les éléments verticalement */
+    justify-content: flex-end; 
+}
+
+.left-section h2 {
+    margin-bottom: 10px; /* Espace entre le titre et le texte */
+    font-size: 1.5rem;
+    color: #333333;
+    width: 90%;
+    margin-left: 10%;
+}
+
+.left-section p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: #333333;
+    width: 90%;
+    margin-left: 10%;
+    margin-bottom: 10%;
+}
+
+.valor .left-section p, .valor .left-section h2 {
+    margin-left: 0%;
+    margin-right: 10%;
+
+}
+
+.middle-section {
+    flex: 1; /* Deuxième partie au milieu (vide pour l'instant) */
+}
+
+.right-section {
+    flex: 1; /* Troisième partie à droite pour l'image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* L'image couvre complètement la zone sans déformation */
+    display: block;
+}
+
+/* Pied de page */
+footer {
+    padding: 1rem;
+    background-color: #ffffff;
+    text-align: right;
+}
+
+footer p {
+    color: #333333;
+    margin-right: 2rem;
+}
+
+
+.container-form {
+    display: flex;
+
+}
+
+.image-section {
+    flex: 1;
+
+}
+
+.image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.form-section {
+    flex: 1;
+    margin-block: 40px;
+
+}
+.form-section form{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px ;
+}
+
+.form-section h2 {
+    font-size: 1.2rem;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.form-section p {
+    font-size: 0.7rem;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666666;
+}
+
+.form-section input {
+    height: 7vh;
+    max-height: 60px;
+    padding: 10px;
+    border: 1px solid #666666;
+    background-color: #fffdf7;
+
+}
+
+.form-section .checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-section .checkbox input {
+    margin-right: 10px;
+    height: 2vh;
+}
+
+.form-section button {
+    width: 100%;
+    padding: 15px;
+    height: 7.5vh;
+    max-height: 70px;
+    background-color: #565656;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.form-section button:hover {
+    background-color: #000000;
+}
+
+.form-section a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+    text-decoration: none;
+}
+.form-text{
+    width: 100%;
+    margin-bottom: 20px;
+}
+ #cgu {
+    margin-bottom: 5px;
+}

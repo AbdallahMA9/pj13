@@ -1,19 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
-
+{% block title %}Inscription{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+{% endblock %}
 {% block body %}
-    <h1>Register</h1>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.svg">
+            </div>
+            <ul class="menu">
+                <li><a href="{{ path('app_home') }}">Nos produits</a></li>
+                {% if app.user %}
+                <li><a href="{{ path('app_shopping_cart') }}">Mon panier</a></li>
+                <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% else %}
+                <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+    <main>
+    <div class="container-form">
+        <div class="image-section">
+            <img src="{{ asset('img/register.jpeg') }}" alt="Image des plantes">
+        </div>
+        <div class="form-section">
+            <h2>Inscription</h2>
+            <p>Tous les champs sont obligatoires.</p>
 
-    {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_errors(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.firstname, {'label': 'Prénom', 'attr': {'class': 'form-text'}}) }}
+                {{ form_row(registrationForm.lastname, {'label': 'Nom de famille', 'attr': {'class': 'form-text'}}) }}
+
+                {{ form_row(registrationForm.email, {'label': 'Adresse e-mail', 'attr': {'class': 'form-text'}}) }}
+
+                {{ form_row(registrationForm.plainPassword.first, {'label': 'Mot de passe', 'attr': {'class': 'form-text'}}) }}
+                {{ form_row(registrationForm.plainPassword.second, {'label': 'Confirmation mot de passe', 'attr': {'class': 'form-text'}}) }}
+
+                    {{ form_row(registrationForm.agreeTerms, {'label': "J'accepte les CGU de GreenGoodies", 'attr': {'class': 'checkbox'}}) }}
+
+                <button type="submit">S'inscrire</button>
+                {{ form_end(registrationForm) }}
+
+                <a href="#">Déjà un compte ? Se connecter</a>
+            </div>
+        </div>
+        </main>
+    <footer>
+
+        <p>&copy; GreenGoodies - 2024</p>
+    </footer>
 {% endblock %}
