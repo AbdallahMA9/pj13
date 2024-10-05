@@ -23,6 +23,15 @@ class HomeController extends AbstractController
             'products' => $products,
         ]);
     }
+    #[IsGranted("ROLE_USER")]
+    #[Route('/api/products', name: 'app_home')]
+    public function products(ProductRepository $productRepository): Response
+    {
+        $products = $productRepository->findAll();
+        return $this->json( [
+            'products' => $products,
+        ]);
+    }
 
 
     #[Route('/account/shopping-cart', name: 'app_shopping_cart')]
