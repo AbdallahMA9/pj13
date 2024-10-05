@@ -28,7 +28,7 @@
     <div class="cart-container">
         <h1>Mon panier</h1>
         <div class="cart-header">
-            <a href="#" class="empty-cart">x Vider le panier</a>
+            <a href="{{ path('app_empty_cart') }}" class="empty-cart">x Vider le panier</a>
             <h1></h1>
         </div>
         {% set total = 0 %} {# Initialisation de la variable total #}
@@ -60,7 +60,8 @@
         </div>
 
         <div class="cart-footer">
-            <button class="checkout-btn">Valider la commande</button>
+
+            <a href="{{ path('app_validate_cart') }}" class="checkout-btn">Valider la commande</a>
         </div>
     </div>
 </main>

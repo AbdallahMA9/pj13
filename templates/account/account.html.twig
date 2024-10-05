@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
+{% endblock %}
+{% block body %}
+<header>
+        <div class="container">
+            <div class="logo">
+                <img src="{{ asset('logo.svg') }}">
+            </div>
+            <ul class="menu">
+                <li><a href="{{ path('app_home') }}">Nos produits</a></li>
+                {% if app.user %}
+                <li><a href="{{ path('app_shopping_cart') }}">Mon panier</a></li>
+                <li><a href="{{ path('app_account') }}">Mon compte</a></li>
+                <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% else %}
+                <li><a href="{{ path('app_register') }}">Inscription</a></li>
+                <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
+</header>
+
+    <main class="cart-container-main">
+
+    <div class="cart-container account">
+        <h1>Mon compte</h1>
+        <section class="cart-item" >
+            
+        <h2 style="text-align: left;">Mes commandes</h2><br>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left-th">N°</th>
+                        <th class="date-th">Date</th>
+                        <th class="price-th">Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td class="left-th">{{order.id}}</td>
+                        <td class="date-th">{{ order.date|date('d/m/Y') }}</td>
+                        <td class="price-th">{{order.price}}€</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="cart-item">
+            <h2 style="text-align: left;">Mon accès API</h2><br>
+
+            <a href="{{ path('app_validate_cart') }}" class="checkout-btn api">Activer Mon accès API</a>
+        </section>
+
+        <form action="{{ path('account_delete') }}" method="POST" class="cart-item">
+            <input type="hidden" name="_token" value="{{ csrf_token('account_delete') }}">
+            <button type="submit" class="checkout-btn api">Supprimer mon compte</button>
+        </form>
+
+    </div>
+</main>
+    
+<footer>
+    <p>&copy; GreenGoodies - 2024</p>
+</footer>
+{% endblock %}

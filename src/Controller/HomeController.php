@@ -7,6 +7,8 @@ use App\Repository\ProductRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -24,43 +26,77 @@ class HomeController extends AbstractController
 
 
     #[Route('/account/shopping-cart', name: 'app_shopping_cart')]
-    public function shoppingCart( ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
+    public function shoppingCart(ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
     {
         // Récupération de l'utilisateur
         $user = $this->getUser();
     
-
-    
-        // Initialisation de la variable $panier
-        $panier = 0;
-
         // Récupérer l'entité OrderRepository
         $orderRepository = $entityManager->getRepository(Order::class);
-
-        // Chercher s'il existe une commande non validée pour cet utilisateur et ce produit
+    
+        // Chercher s'il existe une commande non validée pour cet utilisateur
         $orders = $orderRepository->findBy([
             'user' => $user,
             'validity' => 0
         ]);
-
-        // Si une commande non validée est trouvée, on met $panier à 1
-        if ($orders) {
-            $panier = 1;
-        }
-        if ($panier == 1) {
-            return $this->render('account/cart.html.twig', [
-                'panier' => $panier,
-                'orders' => $orders
-            ]);
-        }else {
-            return $this->render('account/cart.html.twig', [
-                'panier' => $panier,
-            ]);
-        }
-
-
-        
+    
+        return $this->render('account/cart.html.twig', [
+            'panier' => !empty($orders),
+            'orders' => $orders
+        ]);
     }
+    
+    #[Route('/account/shopping-cart/empty', name: 'app_empty_cart')]
+    public function emptyCart(EntityManagerInterface $entityManager): Response
+    {
+        // Récupération de l'utilisateur
+        $user = $this->getUser();
+    
+        // Récupérer l'entité OrderRepository
+        $orderRepository = $entityManager->getRepository(Order::class);
+    
+        // Chercher toutes les commandes non validées pour cet utilisateur
+        $orders = $orderRepository->findBy([
+            'user' => $user,
+            'validity' => 0
+        ]);
+    
+        // Suppression de chaque commande
+        foreach ($orders as $order) {
+            $entityManager->remove($order);
+        }
+        $entityManager->flush();
+    
+        // Redirection vers la page du panier
+        return $this->redirectToRoute('app_shopping_cart');
+    }
+    
+    #[Route('/account/shopping-cart/validate', name: 'app_validate_cart')]
+    public function validateCart(EntityManagerInterface $entityManager): Response
+    {
+        // Récupération de l'utilisateur
+        $user = $this->getUser();
+    
+        // Récupérer l'entité OrderRepository
+        $orderRepository = $entityManager->getRepository(Order::class);
+    
+        // Chercher toutes les commandes non validées pour cet utilisateur
+        $orders = $orderRepository->findBy([
+            'user' => $user,
+            'validity' => 0
+        ]);
+    
+        // Changer la validité de chaque commande à 1
+        foreach ($orders as $order) {
+            $order->setValidity(1);
+            $entityManager->persist($order);
+        }
+        $entityManager->flush();
+    
+        // Redirection vers la page du panier
+        return $this->redirectToRoute('app_shopping_cart');
+    }
+    
 
     #[IsGranted("ROLE_USER")]
     #[Route('/add-product/{id}', name:'add_product')]
@@ -161,10 +197,23 @@ class HomeController extends AbstractController
 
 
     #[Route('/account', name: 'app_account')]
-    public function account(): Response
+    public function account(ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        // Récupération de l'utilisateur
+        $user = $this->getUser();
+    
+        // Récupérer l'entité OrderRepository
+        $orderRepository = $entityManager->getRepository(Order::class);
+    
+        // Chercher s'il existe une commande non validée pour cet utilisateur
+        $orders = $orderRepository->findBy([
+            'user' => $user,
+            'validity' => 1
+        ]);
+    
+        return $this->render('account/account.html.twig', [
+            'panier' => !empty($orders),
+            'orders' => $orders
         ]);
     }
 
@@ -212,6 +261,21 @@ class HomeController extends AbstractController
 
 
         
+    }
+
+    #[Route('/account/delete', name: 'account_delete', methods: ['POST'])]
+    public function deleteAccount(Request $request, EntityManagerInterface $entityManager): RedirectResponse
+    {
+
+        // Récupération de l'utilisateur connecté
+        $user = $this->getUser();
+        if ($this->isCsrfTokenValid('account_delete', $request->request->get('_token'))) {
+        // Suppression de l'utilisateur et de ses commandes
+        $entityManager->remove($user);
+        $entityManager->flush();
+        }
+        // Redirection vers la page d'accueil après suppression
+        return $this->redirectToRoute('app_home');
     }
     
 }
