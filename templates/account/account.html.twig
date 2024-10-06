@@ -8,7 +8,7 @@
 <header>
         <div class="container">
             <div class="logo">
-                <img src="{{ asset('logo.svg') }}">
+                <img src="{{ asset('img/logo.svg') }}">
             </div>
             <ul class="menu">
                 <li><a href="{{ path('app_home') }}">Nos produits</a></li>
@@ -55,8 +55,11 @@
 
         <section class="cart-item">
             <h2 style="text-align: left;">Mon accès API</h2><br>
-
-            <a href="{{ path('app_validate_cart') }}" class="checkout-btn api">Activer Mon accès API</a>
+            {% if api == 1 %}
+            <a href="{{ path('disable_api') }}" class="checkout-btn api">Désactiver Mon accès API</a>
+            {% else %}
+            <a href="{{ path('active_api') }}" class="checkout-btn api">Activer Mon accès API</a>
+            {% endif %}
         </section>
 
         <form action="{{ path('account_delete') }}" method="POST" class="cart-item">

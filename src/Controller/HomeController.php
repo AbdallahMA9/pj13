@@ -23,8 +23,9 @@ class HomeController extends AbstractController
             'products' => $products,
         ]);
     }
-    #[IsGranted("ROLE_USER")]
-    #[Route('/api/products', name: 'app_home')]
+
+    #[IsGranted("ROLE_API")]
+    #[Route('/api/products', name: 'app_products')]
     public function products(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
@@ -210,7 +211,13 @@ class HomeController extends AbstractController
     {
         // Récupération de l'utilisateur
         $user = $this->getUser();
-    
+
+        if ($this->isGranted('ROLE_API') ) {
+            $api = 1;
+        }else(
+            $api = 0 
+        );
+
         // Récupérer l'entité OrderRepository
         $orderRepository = $entityManager->getRepository(Order::class);
     
@@ -222,8 +229,53 @@ class HomeController extends AbstractController
     
         return $this->render('account/account.html.twig', [
             'panier' => !empty($orders),
-            'orders' => $orders
+            'orders' => $orders,
+            'api' => $api
         ]);
+    }
+
+    #[Route('/account/active-api/', name: 'active_api')]
+    public function activeApi( EntityManagerInterface $em): Response
+    {
+
+
+        $user = $this->getUser() ;
+
+        // Vérifiez si l'utilisateur existe
+        if (!$user) {
+            throw $this->createNotFoundException('Aucun utilisateur trouvé avec cet identifiant');
+        }
+
+        // Mettez à jour les rôles de l'utilisateur
+        $user->setRoles(['ROLE_API']);
+
+        $em->persist($user);
+        $em->flush();
+
+        // Redirigez vers le compte
+        return $this->redirectToRoute('app_account');
+    }
+
+    #[Route('/account/disable-api/', name: 'disable_api')]
+    public function disableApi( EntityManagerInterface $em): Response
+    {
+
+
+        $user = $this->getUser() ;
+
+        // Vérifiez si l'utilisateur existe
+        if (!$user) {
+            throw $this->createNotFoundException('Aucun utilisateur trouvé avec cet identifiant');
+        }
+
+        // Mettez à jour les rôles de l'utilisateur
+        $user->setRoles([]);
+
+        $em->persist($user);
+        $em->flush();
+
+        // Redirigez vers le compte
+        return $this->redirectToRoute('app_account');
     }
 
     #[Route('/product/{id}', name:'app_product')]
@@ -286,5 +338,7 @@ class HomeController extends AbstractController
         // Redirection vers la page d'accueil après suppression
         return $this->redirectToRoute('app_home');
     }
+
+    
     
 }

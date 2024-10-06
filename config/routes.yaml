@@ -6,5 +6,3 @@ controllers:
 
 api_login_check:
     path: /api/auth
-    #requirements:
-     #   _role: 'API_ACCESS' # L'utilisateur doit avoir accès API
