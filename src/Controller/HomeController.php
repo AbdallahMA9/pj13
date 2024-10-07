@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_home' )]
     public function index(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     }
 
     #[IsGranted("ROLE_API")]
-    #[Route('/api/products', name: 'app_products')]
+    #[Route('/api/products', name: 'app_products', methods: ['GET'])]
     public function products(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
