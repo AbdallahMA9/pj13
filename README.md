@@ -1,4 +1,4 @@
-Projet 13 openclassroom formatipn Symfony Php
+Projet 13 openclassroom formation Symfony Php
 
 ## Description
 Ceci est un projet Symfony pour un site e-commerce et qui implémente aussi une API sécurisée avec JWT (JSON Web Token) pour l'authentification. L'API est protégée par des rôles d'utilisateur, et seuls les utilisateurs avec le rôle `ROLE_API` peuvent accéder aux routes protégées.
