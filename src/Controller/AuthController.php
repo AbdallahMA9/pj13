@@ -1,31 +1,46 @@
 <?php
+
 namespace App\Controller;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class AuthController extends AbstractController
 {
-    private $tokenStorage;
+    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
+    public function login(
+        Request $request,
+        UserProviderInterface $userProvider,
+        UserPasswordHasherInterface $passwordEncoder,
+        JWTTokenManagerInterface $jwtManager
+    ): JsonResponse {
+        // Récupère les données de la requête (username et password)
+        $data = json_decode($request->getContent(), true);
+        $username = $data['username'] ?? '';
+        $password = $data['password'] ?? '';
 
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
+        // Recherche l'utilisateur par son identifiant (nom d'utilisateur ou email)
+        $user = $userProvider->loadUserByIdentifier($username);
 
-    #[Route("/api/protected", name:"api_protected", methods:"GET")]
-    public function protectedRoute(): JsonResponse
-    {
-        // Récupérer l'utilisateur authentifié
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        // Vérifier si l'utilisateur est authentifié
-        if (!$user instanceof User) {
-            return new JsonResponse(['error' => 'Unauthorized'], JsonResponse::HTTP_UNAUTHORIZED);
+        // Vérifie si l'utilisateur existe et si le mot de passe est correct
+        if (!$user || !$passwordEncoder->isPasswordValid($user, $password)) {
+            return new JsonResponse(['error' => 'Invalid credentials'], 401);
         }
 
-        return new JsonResponse(['message' => 'This is a protected route', 'user' => $user->getEmail()]);
+        // Vérifie si l'utilisateur a le rôle "ROLE_API"
+        if (!in_array('ROLE_API', $user->getRoles(), true)) {
+            return new JsonResponse(['error' => 'Access denied. You do not have the required ROLE_API.'], 403);
+        }
+
+        // Génère le token JWT pour l'utilisateur authentifié
+        $token = $jwtManager->create($user);
+
+        // Retourne le token dans la réponse JSON
+        return new JsonResponse(['token' => $token]);
     }
 }

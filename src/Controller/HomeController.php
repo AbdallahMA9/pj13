@@ -23,8 +23,8 @@ class HomeController extends AbstractController
             'products' => $products,
         ]);
     }
-
-    #[IsGranted("ROLE_API")]
+    
+    #[IsGranted('ROLE_API')]
     #[Route('/api/products', name: 'app_products', methods: ['GET'])]
     public function products(ProductRepository $productRepository): Response
     {
@@ -33,6 +33,8 @@ class HomeController extends AbstractController
             'products' => $products,
         ]);
     }
+
+    
 
 
     #[Route('/account/shopping-cart', name: 'app_shopping_cart')]
